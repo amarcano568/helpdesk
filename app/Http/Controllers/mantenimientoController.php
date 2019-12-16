@@ -114,6 +114,10 @@ class mantenimientoController extends Controller
                                                     '.$candado.'
                                                 </a>
                                                 '.$interactuaCayro.'
+                                                <a data-accion="editarRole" urlRole="users/'. $usuario->id.'/edit" href="users/'. $usuario->id.'/edit">          
+                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar Rol (<strong>'.$usuario->name.'</strong>)." class="icono-action text-info fab fa-r-project">
+                                                    </i>
+                                                </a>
                                             </div>');
         }
 

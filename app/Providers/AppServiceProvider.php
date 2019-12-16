@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use \App\Tickets;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Tickets::observe(\App\Observers\nuevosTickets::class);
+        //Tickets::observe(\App\Observers\nuevosTickets::class);
+        Schema::defaultStringLength(120);
     }
 }

@@ -73,48 +73,115 @@
                             <div class="menu_section">
                                 <h3>General</h3>
                                 <ul class="nav side-menu">
-                                    <li><a href="{{URL::to('/')}}"><i style="font-size: 20px;" class="fa fa-home"></i> Inicio </a></li>
-                                    <li><a href="{{URL::to('solicitudSoporte')}}"><i style="font-size: 20px;" class="fas fa-ticket-alt"></i>&emsp;Solicitud de Soporte </a></li>
-                                    @if( (Auth::user()->rol=='adm' or Auth::user()->rol=='age') and (Auth::user()->cayro != 1) or Auth::user()->BaseDatos == Auth::user()->BaseDatosAux) 
+                                    
+                                    @can('dashboard')
+                                    <li>
+                                        <a href="{{URL::to('/')}}">
+                                            <i style="font-size: 20px;" class="fa fa-home"></i> Inicio </a>
+                                    </li>
+                                    @endcan
+
+                                    @can('solicitudSoporte')
+                                    <li>
+                                        <a href="{{URL::to('solicitudSoporte')}}">
+                                            <i style="font-size: 20px;" class="fas fa-ticket-alt"></i>
+                                            &emsp;Solicitud de Soporte 
+                                        </a>
+                                    </li>
+                                    @endcan
+
+                                    @can('admin-Soporte')
                                         <li >
                                             <a href="{{URL::to('admin-Soporte')}}">
                                                 <i style="font-size: 20px;" class="fas fa-user-shield"></i>
                                                 &emsp;Administrador de Soporte 
                                             </a>
                                         </li>
-                                    @endif
-                                    @if( (Auth::user()->rol=='adm' or Auth::user()->rol=='age') and (Auth::user()->cayro != 1) or Auth::user()->BaseDatos == Auth::user()->BaseDatosAux) 
+                                    @endcan
+
+                                    @can('menu.reportes')
                                         <li>
                                             <a>
                                                 <i style="font-size: 20px;" class="fas fa-print"></i>&emsp;Reportes <span class="fa fa-chevron-down"></span>
                                             </a>
                                             <ul class="nav child_menu">
-                                                <li><a href="{{URL::to('report-ticket-enviados')}}">Reporte Tickets recibidos</a></li>
-                                                <li><a href="form_advanced.html">Estadísticas</a></li>
+                                                @can('report-ticket-enviados')
+                                                <li>
+                                                    <a href="{{URL::to('report-ticket-enviados')}}">Reporte Tickets recibidos
+                                                    </a>
+                                                </li>
+                                                @endcan
+                                                @can('report-estadisticas')
+                                                <li>
+                                                    <a href="{{URL::to('report-estadisticas')}}">Estadísticas</a>
+                                                </li>
+                                                @endcan
                                             </ul>
                                         </li>
-                                    @endif
-                                @if( (Auth::user()->rol=='adm') and (Auth::user()->cayro != 1) or Auth::user()->BaseDatos == Auth::user()->BaseDatosAux) 
+                                    @endcan
+                                @can('menu.administracion')
                                     <li>
-                                        <a><i style="font-size: 20px;" class="fas fa-cogs"></i>&emsp;Configuración <span class="fa fa-chevron-down"></span></a>
+                                        <a><i style="font-size: 20px;" class="fas fa-cogs"></i>&emsp;Administración <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="{{URL::to('mantEmpresa')}}">Empresa</a></li>
-                                            <li><a href="{{URL::to('mantUsuarios')}}">Usuarios</a></li>
-                                            <li><a href="{{URL::to('mantTickets')}}">Mantenimiento Tipo Ticket</a></li>
-                                            <li><a href="{{URL::to('mantCategorias')}}">Categoría / SubCategoría</a></li>
-                                            <li><a href="typography.html">Área / Sub Área</a></li>
-                                            <li><a href="{{URL::to('config-correo')}}">Correo</a></li>
+                                            @can('mantEmpresa')
+                                            <li>
+                                                <a href="{{URL::to('mantEmpresa')}}">Empresa
+                                                </a>
+                                            </li>
+                                            @endcan
+                                            @can('mantUsuarios')
+                                            <li>
+                                                <a href="{{URL::to('mantUsuarios')}}">Usuarios
+                                                </a>
+                                            </li>
+                                            @endcan
+                                            @can('mantTickets')
+                                            <li>
+                                                <a href="{{URL::to('mantTickets')}}">Mantenimiento Tipo Ticket
+                                                </a>
+                                            </li>
+                                            @endcan
+                                            @can('mantCategorias')
+                                            <li>
+                                                <a href="{{URL::to('mantCategorias')}}">Categoría / SubCategoría
+                                                </a>
+                                            </li>
+                                            @endcan
+                                            @can('mantAreas')
+                                            <li>
+                                                <a href="{{URL::to('mantAreas')}}">
+                                                Área / Sub Área
+                                                </a>
+                                            </li>
+                                            @endcan
+                                            @can('config-correo')
+                                            <li>
+                                                <a href="{{URL::to('config-correo')}}">Correo
+                                                </a>
+                                            </li>
+                                            @endcan
                                         </ul>
                                     </li>
-                                @endif 
+                                @endcan
                                 @if( (Auth::user()->superUser==1))  
                                     <li>
-                                        <a href="{{URL::to('maestro-empresa')}}">
-                                            <i style="font-size: 20px;" class="far fa-building"></i>
-                                            &emsp;Maestro de Empresas 
-                                        </a>
+                                        <a><i style="font-size: 20px;" class="fas fa-user-cog"></i>&emsp;Configuración <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="{{URL::to('maestro-empresa')}}">
+                                                    <i style="font-size: 20px;" class="far fa-building"></i>
+                                                    &emsp;Maestro de Empresas 
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{URL::to('roles')}}">
+                                                    <i style="font-size: 20px;" class="fab fa-r-project"></i>
+                                                    &emsp;Mantenimiento de Roles 
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>  
-                                @endif                         
+                                @endif                                          
                         </ul>
                     </div>
 

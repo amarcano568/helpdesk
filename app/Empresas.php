@@ -130,7 +130,121 @@ class Empresas extends Model
     	$this->sp_listar_tipoTicketNew($request->baseDatos);
     	$this->sp_obtener_ticket($request->baseDatos);
     	$this->sp_registrarEncuesta_ticket($request->baseDatos);
+    	$this->sp_lista_ticketsUsuariosReportes($request->baseDatos);
+    	$this->sp_lista_ticketsRecibidosResumen($request->baseDatos);
         
+    }
+    protected function sp_lista_ticketsRecibidosResumen($BD)
+    {	
+    	$sql="CREATE DEFINER=`root`@`localhost` PROCEDURE `lista_ticketsRecibidosResumen`(
+				in idUsuarioIn int,
+				in fechaDesde date,
+				in fechaHasta date
+				)
+				BEGIN
+
+						select 1 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=1)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 2 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=2)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 3 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=3)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 4 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=4)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 5 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=5)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 6 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=6)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 7 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=7)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 8 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=8)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad
+				        union all
+				        select 9 as estado, (
+							select count(*)
+							from tickets t0
+							inner join tablas t3 on t3.tipo ='EST' and t0.estado = t3.idTabla
+							where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (t0.estado=9)
+				             and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+						) as cantidad;
+					
+
+				END";
+    	DB::connection($BD)->getPdo()->exec($sql);
+    }
+
+    protected function sp_lista_ticketsUsuariosReportes($BD)
+    {	
+    	$sql="CREATE DEFINER=`root`@`localhost` PROCEDURE `lista_ticketsUsuariosReportes`(
+			in idUsuarioIn int,
+			in idGrupoIn int,
+			in fechaDesde date,
+			in fechaHasta date
+			)
+			BEGIN
+					select estado,t6.des2Tabla,t0.idUsuTicket,t0.ctaUsuEjecutor,t0.nroTicket, concat(t4.name,' ',t4.lastName) solicitante,
+					t0.Titulo, t0.idCategoria, t1.descCategoria, t0.idSubCategoria, t0.prioridad, t2.desTabla as desPrioridad,
+					t0.fechaEstado, t0.estado,t0.fechaRegistro ,
+			        CASE WHEN isnull(t5.name) THEN 'Pendiente por asignar' ELSE concat(t5.name,' ',t5.lastName) END as ejecutor,
+					t0.tipoOrigen Origen,t0.tipoDestino Destino
+					from tickets t0  
+					inner join categoria t1   on t0.idCategoria = t1.idCategoria
+					inner join tablas t2 on  t2.tipo ='PRIO' and t0.prioridad = t2.idTabla
+			        inner join tablas t6 on t6.tipo='EST' and t6.idTabla=t0.estado
+					inner join `help-desk`.users t4 on t0.idUsuTicket = t4.id
+					left join `help-desk`.users t5 on t0.idUsuEjecutor = t5.id  and t0.ctaUsuEjecutor = t5.email
+					where (t0.idUsuTicket = idUsuarioIn or idUsuarioIn = 0)  and (idGrupoIn = 0 or t0.estado=idGrupoIn)
+			        and (t0.fechaRegistro BETWEEN fechaDesde AND fechaHasta)
+			        order by t6.des2Tabla;
+			END";
+    	DB::connection($BD)->getPdo()->exec($sql);
     }
 
     protected function sp_registrarEncuesta_ticket($BD)

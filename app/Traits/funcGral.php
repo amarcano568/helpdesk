@@ -12,9 +12,7 @@ trait funcGral {
 
     public function getNextID($table) 
 	{
-
 	 $statement = DB::select("show table status like '".$table."'");
-
 	 return $statement[0]->Auto_increment;
 	}
  

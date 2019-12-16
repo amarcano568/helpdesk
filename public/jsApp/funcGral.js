@@ -330,6 +330,7 @@ function modoUsuario() {
 }
 
 function defaultBaseDatos(baseDatosEmpresa) {
+
     $.ajax({
         url: 'default-base-datos',
         type: 'get',
@@ -352,3 +353,8 @@ function defaultBaseDatos(baseDatosEmpresa) {
         ajaxError(statusCode, errorThrown);
     });
 }
+
+$(document).on('click', '#btnRetornar', function(event) {
+    event.preventDefault();
+    window.location.href = '/mantUsuarios';
+});

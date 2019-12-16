@@ -114,4 +114,18 @@ class reportesController extends Controller
         return response()->json( array('success' => true, 'mensaje'=> 'Procesado con exito', 'data' => $ticketsRecibidos) );
     }
 
+    public function reporteEstadisticas()
+    {
+        $conn = $this->BaseDatosEmpresa();
+        $areas = \App\Areas::on($conn)->get();      
+        $usuarios = \App\Usuarios::where('BaseDatos',$conn)->where('status','=',1)->get();
+        
+        $data = array(  
+                        'areas' => $areas,
+                        'usuarios' => $usuarios
+                     );
+
+        return view('reportes.reporte-estadistica',$data);
+    }
+
 }

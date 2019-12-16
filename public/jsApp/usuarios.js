@@ -87,7 +87,7 @@ $(document).on('ready', function() {
                 "data": 8,
             }],
             "columnDefs": [{
-                "width": "5%",
+                "width": "3%",
                 "targets": [0, 5]
             }, {
                 "width": "20%",
@@ -100,6 +100,16 @@ $(document).on('ready', function() {
                 "targets": [
                     1,
                     2
+                ]
+            }, {
+                "width": "5%",
+                "targets": [
+                    7
+                ]
+            }, {
+                "width": "18%",
+                "targets": [
+                    8
                 ]
             }, {
                 "targets": [4],
@@ -259,7 +269,7 @@ $(document).on('ready', function() {
 
         accion_ok = $(this).attr('data-accion');
         idUsuario = $(this).attr('idUsuario');
-
+        url_rol = $(this).attr('urlRole');
         switch (accion_ok) {
 
             case 'editarUsuario': // Edita Usuario
@@ -298,6 +308,11 @@ $(document).on('ready', function() {
 
                     // status = data.status == 1 ? true : false;
                 })
+                break;
+
+            case 'editarRole': // Edita Usuario
+                window.location.href = url_rol;
+
                 break;
 
             case 'bloquearUsuario':

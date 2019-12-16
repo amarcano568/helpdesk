@@ -108,6 +108,7 @@ class maestroEmpresasController extends Controller
 	        }
 
 	        $validaEnv = env($request->baseDatos.'_DB_CONNECTION');
+
 	        if ( trim($validaEnv) == "" ){
 	        	return response()->json( array('success' => false, 'mensaje'=> 'Aún no ha sido creada la conexión en el archivo <strong>.env => '.$validaEnv.'</strong> y en el archivo <strong>config/database.php</strong>') );
 	        }
