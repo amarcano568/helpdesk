@@ -277,7 +277,7 @@ $(document).on('ready', function() {
                 });
 
             }, function() { // En caso de Cancelar              
-                alertify.error('Se Cancelo el Proceso para cambiar de status la Categoría');
+                alertify.error('Se Cancelo el Proceso para cambiar de status la Empresa');
             }).set('labels', {
                 ok: 'Confirmar',
                 cancel: 'Cancelar'
@@ -287,18 +287,6 @@ $(document).on('ready', function() {
                 modal: true,
                 closableByDimmer: false
             });
-        } else if (accion_ok == "VerSubCategoria") {
-            var Selector = "#" + Id;
-            $(Selector).show();
-            CargaTableSubCategoria(Id, Nombre);
-
-        } else if (accion_ok == "AgregarSubCategoria") {
-            // var Selector = "#" + Id;
-            // $(Selector).show();
-            $("#ModalAgregarSubCategoria").modal('show');
-            $("#TitleModalSubCategoria").text("Agregar SubCategoría del Sistema..!");
-            $("#IdCategoriaAux").val(Id);
-
         }
 
 

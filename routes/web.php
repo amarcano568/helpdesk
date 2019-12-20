@@ -24,7 +24,10 @@ Route::group(['middleware' => 'auth'], function (){
 	
 	Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout'); 
 	Route::get('default-base-datos', 'inicioController@defaultBaseDatos'); 
-	
+	Route::get('usuario-bloqueado', 'mantenimientoController@usuarioBloqueado');
+	Route::get('usuario-bloqueado', function () {		
+	    return view('auth.usuario-bloqueado');
+	});
 
 	/**
 	 *   Usuarios
