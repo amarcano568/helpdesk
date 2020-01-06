@@ -90,7 +90,7 @@ class SoporteController extends Controller
     public function cargaSubProblemas(Request $request)
     {
         $conn = $this->BaseDatosEmpresa();
-        $subCategorias = \App\SolucionFrecuente::on($conn)->join('SubCategoria', 'soluFrecuente.idSubCategoria', '=', 'subcategoria.idSubCategoria')->where('soluFrecuente.idSubCategoria','=',$request->IdSubCat)->get();
+        $subCategorias = \App\SolucionFrecuente::on($conn)->join('subcategoria', 'solufrecuente.idSubCategoria', '=', 'subcategoria.idSubCategoria')->where('solufrecuente.idSubCategoria','=',$request->IdSubCat)->get();
         return response()->json( array('success' => true, 'mensaje'=> 'Procesado con exito', 'data' => $subCategorias) );
     }
 
@@ -363,17 +363,26 @@ class SoporteController extends Controller
     {   
         $salida = '';
         foreach ($archivos as $archivo) {
-            $archi = explode('\\',$archivo);
-            $archivo = $ruta.'/'.$archi[5];
-            $ext = explode('.', $archi[5]);
+            
+            $archi = explode('/',$archivo);            
+            $s_o = PHP_OS;
+            if ($s_o=="WINNT"){ 
+                $archi = explode('\\',$archivo);
+            }        
+            $pos = count($archi)-1;
+            $archivo = $ruta.'/'.$archi[$pos];
+            $ext = explode('.', $archi[$pos]);
+            $created_at='';
+            $nombreOriginal='';
+            $infoFile = \App\FileStore::on($conn)->where('nroTicket','=',$nroTicket)->where('nombreFile','=',$archi[$pos])->take(1)->get();
 
-            $infoFile = \App\FileStore::on($conn)->where('nroTicket','=',$nroTicket)->where('nombreFile','=',$archi[5])->take(1)->get();
+            //dd($infoFile);
             foreach ($infoFile as $info) {
                 $nombreOriginal = $info->nombreOriginal;
                 $created_at = $info->created_at;
             }
 
-            $iconos = '<a href="'.$archivo.'" download="'.$archi[5].'"><i class="fas fa-download"></i></a>';
+            $iconos = '<a href="'.$archivo.'" download="'.$archi[$pos].'"><i class="fas fa-download"></i></a>';
             if (str_contains('PNG*JPG*JPEG*GIF*BMP*jpg', strtoupper($ext[1]))){
                 $iconos .= '<a href="#" class="clickPicture" nameDate="'.$created_at.'" nameShort="'.$nombreOriginal.'" nameFile="'.$archivo.'"><i class="fas fa-search"></i></a>
                       ';                

@@ -564,7 +564,7 @@ class mantenimientoController extends Controller
     }
 
     function consultaSubCategoria($conn,$Categoria){
-        $subCategorias = \App\SubCategorias::on($conn)->select('subCategoria.idCategoria','subCategoria.idSubCategoria','subCategoria.desSubCategoria','subCategoria.activo')->join('categoria', 'categoria.idCategoria', '=', 'subcategoria.idCategoria')->where('subcategoria.idCategoria','=',$Categoria)->get();
+        $subCategorias = \App\SubCategorias::on($conn)->select('subcategoria.idCategoria','subcategoria.idSubCategoria','subcategoria.desSubCategoria','subcategoria.activo')->join('categoria', 'categoria.idCategoria', '=', 'subcategoria.idCategoria')->where('subcategoria.idCategoria','=',$Categoria)->get();
         $salida =  ''; 
 
         
