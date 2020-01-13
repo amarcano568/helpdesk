@@ -12,7 +12,8 @@ class SubCategorias extends Model
      protected function Guardar($request,$empresa)
     {    	
         if ( is_null($request->IdSubCategoria) ){     
-            $subCategoria  = new \App\SubCategorias();
+            $subCategoria  = new SubCategorias();
+            $subCategoria->setConnection($empresa);
             
         }else{
             $subCategoria  = \App\SubCategorias::on($empresa)->find($request->IdSubCategoria);    
