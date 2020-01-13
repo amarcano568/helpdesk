@@ -48,6 +48,11 @@ $(document).on('ready', function() {
 
     }
 
+    var Area = $("#Area").val();
+    if (Area != "" || Area !== null || Area !== undefined) {
+        FuncSelectTipoTicket(Area);
+    }
+
     $(document).on('change', '#Area', function(event) {
         var Area = $("#Area").val();
         var TipoTicket = $("#TipoTicket").val();

@@ -14,7 +14,7 @@ class SubAreas extends Model
         if ( is_null($request->IdSubArea) ){     
             $subArea = new SubAreas;
         	$subArea->setConnection($empresa);
-        	$subArea->idArea      = $request->IdAreaAux;
+        	$subArea->idArea = $request->IdAreaAux;
         }else{
             $subArea  = \App\SubAreas::on($empresa)->find($request->IdSubArea);    
         }
