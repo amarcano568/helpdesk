@@ -845,6 +845,220 @@ class mantenimientoController extends Controller
         
     }
 
+    /**
+     *      Mantenimiento de Areas y subareas.
+     */
+    public function loadMantAreas()
+    {
+        
+        $conn = $this->BaseDatosEmpresa();
+        $areas = \App\Areas::on($conn)->orderBy('descArea', 'ASC')->get();
+        $tipTickets = \App\Tablas::on($conn)->where('Tipo','=','TPTK')->orderBy('desTabla', 'ASC')->get();
+
+        $data = array(  
+                        'areas' => $areas,
+                        'tipTickets' => $tipTickets
+                     );
+
+        return view('mantenimiento.areas',$data);
+    }
+
+    public function listarAreas(){
+
+        $conn = $this->BaseDatosEmpresa();
+        $areas = \App\Areas::on($conn)->get();
+
+        $dataSet = array (
+            "sEcho"                 =>  0,
+            "iTotalRecords"         =>  1,
+            "iTotalDisplayRecords"  =>  1,
+            "aaData"                =>  array () 
+        );
+        $contador = 1;
+        foreach ($areas as $area) {
+
+            $idArea     = $area->idArea;
+            $descArea   = $area->descArea; 
+            $status     = $area->activo;
+                  
+            if ($status == '1'){
+                $ActDes = '<span class="badge badge-pill badge-success">Activo</span>';
+                $etiqueta = '<a data-accion="inactivar" class="blue" href="">
+                                <i class="ace-icon fa fa-unlock bigger-130" title="Inactivar Área"></i>
+                            </a>';
+            }else{
+                $ActDes = '<span class="badge badge-pill badge-danger">Inactivo</span>';
+                $etiqueta = '<a data-accion="activar" class="purple" href="">
+                                <i class="ace-icon fa fa-lock bigger-130" title="Activar Área"></i>
+                            </a>';
+            }
+
+            $botones    = '<div class="action-buttons">
+                                <td>
+                                    <a idArea="'.$idArea.'" status="'.$status.'" data-accion="EditarArea" class="green" href="">
+                                        <i class="far fa-edit" title="Editar Detalle del Área"></i>                                        
+                                    </a>
+                                    '.$etiqueta.'
+                                    <a data-accion="AgregarSubArea" class="red" href="">
+                                        <i class="ace-icon fa fa-plus bigger-120" title="Agregar SubAreaa"></i>
+                                    </a>
+                                    
+                                    <a id="'.$idArea.'" class="red" style="display: none;">
+                                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                    </a>
+                                </td>
+                            </div>';
+
+
+            $dataSet['aaData'][] = array(   $idArea,
+                                            $descArea,
+                                            $ActDes,
+                                            $this->subAreas($conn,$idArea),
+                                            $botones
+                                        );  
+            $contador++;            
+            
+        }       
+
+        $salidaDeDataSet = json_encode ($dataSet, JSON_HEX_QUOT);
+    
+        /* SE DEVUELVE LA SALIDA */
+        echo $salidaDeDataSet;
+    
+    }
+
+    function subAreas($conn,$Area){
+
+        $subAreas = \App\SubAreas::on($conn)->join('area','area.idArea','=','subarea.idArea')->where('area.idArea',$Area)->select('subarea.idSubArea','subarea.descSubArea', 'subarea.idArea', 'area.descArea', 'subarea.activo' )->get();
+
+        $salida = '';
+        $contador = 0;
+            
+        foreach ($subAreas as $subArea) {
+
+            $contador += 1;
+            $idArea         = $subArea->idArea;
+            $idSubArea      = $subArea->idSubArea;
+            $descSubArea    = $subArea->descSubArea;    
+            $activo         = $subArea->activo;
+
+            if ($activo == '1'){
+                $ActDes = '<span class="badge badge-pill badge-success">Activo</span>';
+                $etiqueta = '<a idArea="'.$idArea.'" idSubArea="'.$idSubArea.'" data-accion="inactivarSubArea" class="blue" href="">
+                                <i class="ace-icon fa fa-unlock bigger-130" title="Inactivar SubArea"></i>
+                            </a>';
+             }else{
+                $ActDes = '<span class="badge badge-pill badge-danger">Inactivo</span>';
+                $etiqueta = '<a idArea="'.$idArea.'" idSubArea="'.$idSubArea.'" data-accion="activarSubArea" class="purple" href="">
+                                <i class="ace-icon fa fa-lock bigger-130" title="Activar SubArea"></i>
+                            </a>';
+            }
+                        
+            $salida .=  '<tr>
+                            <td style="display: none;">'.$idArea.'</td>
+                            <td style="display: none;">'.$idSubArea.'</td>
+                            <td>'.$descSubArea.'</td>   
+                            <td>'.$ActDes.'</td>
+                                        
+                            <div class="action-buttons">
+                                <td>
+                                    <a status="'.$activo.'" idSubArea="'.$idSubArea.'" idArea="'.$idArea.'" nombreSubArea="'.$descSubArea.'" data-accion="EditarSubArea" class="green" href="">
+                                        <i class="fas fa-edit" title="Editar Detalle de la SubÁrea"></i>                              
+                                    </a>
+                                    '.$etiqueta.'
+                                    <a id="'.$idSubArea.'" class="red" style="display: none;">
+                                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                     </a>
+                                </td>
+                            </div>                                                  
+                        </tr>';                 
+        
+                    
+        }
+   
+        return '<br><table id="TableListadoSubArea" class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th style="width:10%;text-align: center;display: none;">Id Área</th>
+                    <th style="width:10%;text-align: center;display: none;">Id SubÁrea</th>
+                    <th style="width:55%;text-align: center;">Nombre de la SubÁrea</th>
+                    <th style="width:25%;text-align: center;">Status</th>
+                    <th style="width:10%;text-align: center;">Opciones</th>             
+                </tr>
+            </thead>
+            <tbody id="listaSubAreaOK">'.$salida.'</tbody>
+        </table>';
+    }
+
+    public function ActDesArea(Request $request)
+    {
+        $conn = $this->BaseDatosEmpresa();
+
+        $Area = \App\Areas::on($conn)->find($request->idArea);
+ 
+        $Area->activo = $Area->activo == 1 ? 0 : 1;
+        if(!$Area->save()){
+            App::abort(500, 'Error');
+         }
+
+        return response()->json( array('success' => true, 'mensaje'=> 'Status cambiado exitosamente..!') );
+    }
+
+    public function registrarArea(Request $request)
+    {
+        try {
+            DB::beginTransaction();   
+            $conn = $this->BaseDatosEmpresa();
+   
+            $save = \App\Areas::Guardar($request,$conn);
+            DB::commit();
+            if(!$save){
+                App::abort(500, 'Error');
+            }
+
+            return response()->json( array('success' => true, 'mensaje'=> 'Área guardada exitosamente..!') );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return $this->internalException($e, __FUNCTION__);
+        }
+    }
+
+    public function registrarSubArea(Request $request)
+    {
+        try {
+            DB::beginTransaction();   
+            $conn = $this->BaseDatosEmpresa();
+   
+            $save = \App\SubAreas::Guardar($request,$conn);
+            DB::commit();
+            if(!$save){
+                App::abort(500, 'Error');
+            }
+
+            return response()->json( array('success' => true, 'mensaje'=> 'Área guardada exitosamente..!') );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return $this->internalException($e, __FUNCTION__);
+        }
+    }
+
+    public function ActDesSubArea(Request $request)
+    {
+        $conn = $this->BaseDatosEmpresa();
+
+        $subArea = \App\SubAreas::on($conn)->find($request->idSubArea);
+ 
+        $subArea->activo = $subArea->activo == 1 ? 0 : 1;
+        if(!$subArea->save()){
+            App::abort(500, 'Error');
+         }
+
+        return response()->json( array('success' => true, 'mensaje'=> 'Status cambiado exitosamente..!') );
+    }
+
+
     
 }
 

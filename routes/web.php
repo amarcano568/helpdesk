@@ -70,8 +70,17 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::post('registrar-aplicacion', 'mantenimientoController@registrarAplicacion');
 	Route::get('Act-Des-Categoria', 'mantenimientoController@ActDesCategoria');
 	Route::post('registrar-categoria', 'mantenimientoController@registrarCategoria');
-	Route::get('mantAreas', 'mantenimientoController@loadMantCategorias')->name('mantAreas')->middleware('permission:mantAreas');
 
+	/**
+	 *   mantemimiento de Areas y Subareas
+	 */
+	Route::get('mantAreas', 'mantenimientoController@loadMantAreas')->name('mantAreas')->middleware('permission:mantAreas');
+	Route::get('listar-areas', 'mantenimientoController@listarAreas');
+	Route::get('Act-Des-Area', 'mantenimientoController@ActDesArea');
+	Route::post('registrar-area', 'mantenimientoController@registrarArea');
+	Route::post('registrar-sub-area', 'mantenimientoController@registrarSubArea');
+	Route::get('Act-Des-SubArea', 'mantenimientoController@ActDesSubArea');
+	
 	/**
 	 *   Solicitud de Soporte
 	 */

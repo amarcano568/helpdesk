@@ -128,7 +128,9 @@ $(document).on('ready', function() {
             });
             $("#CategoriaX").trigger("chosen:updated");
             var IdCat = $("#CategoriaX").val();
-            FuncSelectSubCategoria(IdCat);
+            if (IdCat !== null) {
+                FuncSelectSubCategoria(IdCat);
+            }
 
         }).fail(function(statusCode, errorThrown) {
             $.unblockUI();
