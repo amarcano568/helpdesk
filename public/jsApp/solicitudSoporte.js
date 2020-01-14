@@ -49,7 +49,7 @@ $(document).on('ready', function() {
     }
 
     var Area = $("#Area").val();
-    if (Area != "" || Area !== null || Area !== undefined) {
+    if (Area != undefined) {
         FuncSelectTipoTicket(Area);
     }
 
