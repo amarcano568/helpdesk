@@ -2107,9 +2107,9 @@ function init_SmartWizard() {
         transitionEffect: 'slide'
     });
 
-    $('.buttonNext').addClass('btn btn-success');
+    $('.buttonNext').addClass('btn btn-primary');
     $('.buttonPrevious').addClass('btn btn-primary');
-    $('.buttonFinish').addClass('btn btn-default');
+    $('.buttonFinish').addClass('btn btn-danger');
 
 };
 
@@ -4854,8 +4854,6 @@ function init_echarts() {
     if ($('#echart_world_map').length) {
 
         var echartMap = echarts.init(document.getElementById('echart_world_map'), theme);
-
-
         echartMap.setOption({
             title: {
                 text: 'World Population (2010)',

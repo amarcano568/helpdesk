@@ -6,7 +6,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" type="image/x-icon" href="img/help_desk.ico" />
         <title>Helps Desk V1.0 </title>
@@ -14,7 +13,6 @@
         <link href="{{ asset('css/all.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
-        
         <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/jqvmap/dist/jqvmap.min.css') }}" rel="stylesheet"/>
         <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
@@ -37,8 +35,7 @@
         <link rel="stylesheet" href="{{ asset('js/css/themes/bootstrap.min.css') }}"/>
         <link href="{{ asset('vendors/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/star-rating.min.css') }}" rel="stylesheet">
-
-        
+       
     </head>
     <body class="nav-md">
         <input type="text" name="userCayro" id="userCayro" value="{{ Auth::user()->cayro }}" style="display: none;">
