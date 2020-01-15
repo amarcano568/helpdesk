@@ -31,7 +31,7 @@ class Tickets extends Model
 		$ticket->mailUsuTicket      = Auth::user()->email;
 		$ticket->mailUsuCopia       = $request->ConCopia;
 		$ticket->titulo             = $request->Titulo;
-		$ticket->referencia         = $request->Referencia;
+		//$ticket->referencia         = $request->Referencia;
 		$ticket->descripcion        = $request->DescPro;
 		$ticket->fechaRegistro      = $now;
 			

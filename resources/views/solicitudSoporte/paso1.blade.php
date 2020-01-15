@@ -41,7 +41,7 @@
 			@endforeach
 		</select>
 	</div>
-	<div class="form-group col-lg-6 col-md-6 col-sm-6" style="">
+	{{-- <div class="form-group col-lg-6 col-md-6 col-sm-6" style="">
 		<label class="control-label no-padding-right" for="form-field-1"> Usuario </label>
 		<div class="clearfix">
 			<select data-placeholder="Seleccione un Usuario..." class="chosen-select form-control" id="Referencia" name="Referencia" >
@@ -54,7 +54,7 @@
 				@endforeach
 			</select>
 		</div>
-	</div>
+	</div> --}}
 	<div class="form-group col-lg-6 col-md-6 col-sm-6" style="">
 		<label class="control-label no-padding-right" for="form-field-1"> Con Copia a </label>
 		<select multiple data-placeholder="Correo con copia a..." class="form-control chosen-select" id="ConCopia" name="ConCopia" style="width: 100%">
