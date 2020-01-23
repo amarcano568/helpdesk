@@ -46,7 +46,7 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ "img/logoCayroPeq.png" }}" height="50" width="50"> <span>Help Desk v1.0.</span></a>
+                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ "img/logoCayroPeq.png" }}" height="50" width="50"> <span>Help Desk v1.0</span></a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu profile quick info -->
