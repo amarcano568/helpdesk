@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" type="image/x-icon" href="img/help_desk.ico" />
-        <title>Helps Desk V1.0</title>
+        <title>Helps Desk V1.0.0</title>
         <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/all.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
@@ -46,7 +46,7 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ "img/logoCayroPeq.png" }}" height="50" width="50"> <span>Help Desk v1.0</span></a>
+                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ "img/logoCayroPeq.png" }}" height="50" width="50"> <span>Help Desk v1.0.</span></a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu profile quick info -->
