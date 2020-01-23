@@ -458,8 +458,8 @@ class mantenimientoController extends Controller
         //SELECT idTabla,desTabla FROM Helpdesk..Tablas where Tipo='TPTK' order by desTabla"
 
         $conn = $this->BaseDatosEmpresa();
-        $areas = \App\Areas::on($conn)->orderBy('descArea', 'ASC')->get();
-        $tipTickets = \App\Tablas::on($conn)->where('Tipo','=','TPTK')->orderBy('desTabla', 'ASC')->get();
+        $areas = \App\Areas::on($conn)->where("activo","=",1)->orderBy('descArea', 'ASC')->get();
+        $tipTickets = \App\Tablas::on($conn)->where('Tipo','=','TPTK')->where("activo","=",1)->orderBy('desTabla', 'ASC')->get();
 
         $data = array(  
                         'areas' => $areas,

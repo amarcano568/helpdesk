@@ -37,6 +37,7 @@
             <div class="col-sm-5 col-xs-6 col-lg-6">
               <label class="control-label no-padding-right"  for="form-field-select-1">Área</label>
               <div class="clearfix">
+                
                 <select data-placeholder="Seleccione una Categoría.." class="form-control chosen-select" id="SelectArea" name="SelectArea" required style="width: 100%">
                  @foreach( $areas as $area )
                   <option value="{{$area->idArea}}">

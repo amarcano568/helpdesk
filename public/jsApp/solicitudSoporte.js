@@ -21,6 +21,7 @@ $(document).on('ready', function() {
         }).done(function(response) {
 
             console.log(response)
+
             obj = response.data;
             $.each(obj, function(key, value) {
                 if (value.grupo == 1) { // Abiertos
@@ -211,7 +212,7 @@ $(document).on('ready', function() {
             $("#Problemas").empty();
             arrayTipoTickets = data.data;
             $(arrayTipoTickets).each(function(i, data1) {
-                $("#Problemas").append('<option value="' + data1.idSoluFrecuente + '">' + data1.desSubCategoria + '</option>');
+                $("#Problemas").append('<option value="' + data1.idSoluFrecuente + '">' + data1.descripcion + '</option>');
             });
             $("#Problemas").trigger("chosen:updated");
 

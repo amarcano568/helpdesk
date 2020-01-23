@@ -36,7 +36,7 @@ class SoporteController extends Controller
     public function solicitudSoporte()
     {
         $conn = $this->BaseDatosEmpresa();
-        $areas = \App\Areas::on($conn)->get();
+        $areas = \App\Areas::on($conn)->where('activo',"=",1)->get();
         $personal = \App\Personal::on($conn)->get();
         $usuarios = \App\Usuarios::where('BaseDatos',$conn)->where('status','=',1)->get();
         $prioridades = \App\Tablas::on($conn)->where('tipo','=','PRIO')->where('activo','=',1)->orderBy('idTabla', 'ASC')->get();
@@ -707,7 +707,6 @@ class SoporteController extends Controller
 
         $estadoTickecAnt = $request->estadoTickecAnt;
         $estado = $request->estado;
-
 
         $conectar = DB::connection($conn);
         $tipTickets = $conectar->select("call atender_ticket( $nroTicket,$idUser,$tipoAtencion,$categoria,$subCategoria,$soluFrecuente,'$comentario',$estado,$estadoTickecAnt,$idUser,'$ctaUsu',0)");

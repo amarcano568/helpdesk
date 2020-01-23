@@ -736,3 +736,44 @@ $('body').on('click', '.BodyAplicacionOK a', function(e) {
     }
 
 });
+
+//se agrego nuevo change para capturar tickes de acuerdo al area seleccionada 
+
+// $(document).on('change', '#SelectArea', function(event) {
+//     var Area = $("#SelectArea").val();
+//     FuncSelectTipoTicket(Area);
+
+// });
+
+// function FuncSelectTipoTicket(IdArea) {
+//     $.ajax({
+//         url: 'listar-tipo_ticket',
+//         type: 'get',
+//         dataType: 'json',
+//         data: {
+//             idArea: IdArea,
+//             _token: "{{ csrf_token() }}",
+//         },
+//         beforeSend: function() {
+//             loadingUI('Actualizando');
+//         }
+//     }).done(function(data) {
+
+//         console.log(data.data)
+//         $("#SelectTipo").empty();
+//         arrayTipoTickets = data.data;
+//         $(arrayTipoTickets).each(function(i, data1) {
+//             $("#SelectTipo").append('<option value="' + data1.idTabla + '">' + data1.desTabla + '</option>');
+//         });
+//         $("#SelectTipo").trigger("chosen:updated");
+
+
+//         $.unblockUI();
+
+//     }).fail(function(statusCode, errorThrown) {
+//         $.unblockUI();
+//         console.log(errorThrown);
+//         ajaxError(statusCode, errorThrown);
+//     });
+
+// };
