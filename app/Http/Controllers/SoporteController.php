@@ -356,7 +356,7 @@ class SoporteController extends Controller
                                     'miniaturasAdjuntas' => $miniaturasAdjuntas,
                                     'minAdjResultados' => $miniAdjResultados
                                 ] );
-
+   
     }
 
     public function archivosAdjuntos($archivos,$ruta,$nroTicket,$conn)

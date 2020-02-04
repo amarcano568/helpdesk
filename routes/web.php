@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('verifica-licencia', 'mantenimientoController@verificaLicencia');
 	Route::get('bloquear_usuario', 'mantenimientoController@bloquearUsuario');
 	Route::get('interactua-cayro', 'mantenimientoController@interactuaCayro');
+	//se agrego para obtener sub_areas
+	Route::get('get-sub-area-usuarios', 'mantenimientoController@getSubAreas');
 	
 	/**
 	 *   Empresa
@@ -80,7 +82,14 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::post('registrar-area', 'mantenimientoController@registrarArea');
 	Route::post('registrar-sub-area', 'mantenimientoController@registrarSubArea');
 	Route::get('Act-Des-SubArea', 'mantenimientoController@ActDesSubArea');
-	
+
+
+	/**
+	 *   mantemimiento de cargos
+	 */
+	Route::get('mantCargos', 'mantenimientoController@loadMantCargos')->name('mantCargos')->middleware('permission:mantCargos');
+	Route::get('listar-cargos', 'mantenimientoController@listarCargos');
+	Route::post('registrar-cargo', 'mantenimientoController@registrarCargos');
 	/**
 	 *   Solicitud de Soporte
 	 */

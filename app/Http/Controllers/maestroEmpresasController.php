@@ -35,7 +35,9 @@ class maestroEmpresasController extends Controller
     {
   
         $conn = $this->BaseDatosEmpresa();
+
         $empresas = \App\Empresas::select('empresas.id','NombreEmpresa','ruc','nameBd','usuariosPermitidos','name','lastName','empresas.status')->join('users','users.id','userAdmin')->get();
+
         $empresas->map(function($empresa){
             $tickets = \App\Tickets::on($empresa->nameBd)->count();
             $empresa->ticket = $tickets;
@@ -108,7 +110,7 @@ class maestroEmpresasController extends Controller
 	        }
 
 	        $validaEnv = env($request->baseDatos.'_DB_CONNECTION');
-
+            
 	        if ( trim($validaEnv) == "" ){
 	        	return response()->json( array('success' => false, 'mensaje'=> 'Aún no ha sido creada la conexión en el archivo <strong>.env => '.$validaEnv.'</strong> y en el archivo <strong>config/database.php</strong>') );
 	        }

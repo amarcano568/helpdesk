@@ -10,6 +10,8 @@ $(document).on('ready', function() {
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
 
 
+
+
     listarUsuarios();
 
     function listarUsuarios() {
@@ -157,6 +159,9 @@ $(document).on('ready', function() {
 
     $('#modal-usuario').on('shown.bs.modal', function() {
         //$('#myInput').trigger('focus')
+        var pArea = $('#area').val();
+        listar_sub_areas(pArea);
+
     })
 
     $('.chosen-select', this).chosen('destroy').chosen({
@@ -365,7 +370,49 @@ $(document).on('ready', function() {
         }
     });
 
+    //me listara las sub_areas dependiendo del area elegida es para el modulo de usuarios
+
+    $("#area").on('change', function() {
+
+        iArea = $(this).val();
+
+        listar_sub_areas(iArea);
+
+    });
 
 
+    function listar_sub_areas(iArea) {
+
+        $.ajax({
+            url: 'get-sub-area-usuarios',
+            type: 'get',
+            datatype: 'json',
+            data: {
+                _token: '{{ csrf_token() }}',
+                iArea: iArea
+            }
+        }).fail(function(statusCode, errorThrown) {
+            console.log(statusCode + ' ' + errorThrown);
+        }).done(function(response) {
+
+
+            array = Object.values(response.data);
+
+            if (response.success == true) {
+
+                $('#subArea').empty();
+
+                $(array).each(function(i, v) {
+                    $("#subArea").append('<option value="' + v.idSubArea + '">' + v.descSubArea + '</option>');
+                })
+
+                $("#subArea").trigger("chosen:updated");
+            } else {
+                console.log("hubo un error");
+
+            }
+        })
+
+    }
 
 });

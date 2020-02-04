@@ -54,7 +54,7 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-form-label col-md-3 col-sm-3 ">Área</label>
+                    <label class="col-form-label col-md-3 col-sm-3 ">Áreas</label>
                     <div class="col-md-9 col-sm-9 ">
                       <select id="area" name="area" class="chosen-select">
                         @foreach( $areas as $area )

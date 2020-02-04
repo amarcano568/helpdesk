@@ -344,7 +344,8 @@ function defaultBaseDatos(baseDatosEmpresa) {
     }).done(function(data) {
 
         console.log(data);
-        window.location.href = "/";
+        //window.location.href = "/";
+        window.location.href = "/helpdesk/public/login";
         //CargaTablero();
         // $.unblockUI();
 
@@ -356,5 +357,7 @@ function defaultBaseDatos(baseDatosEmpresa) {
 
 $(document).on('click', '#btnRetornar', function(event) {
     event.preventDefault();
-    window.location.href = '/mantUsuarios';
+    window.location.href = "/helpdesk/public/mantUsuarios";
+
+
 });

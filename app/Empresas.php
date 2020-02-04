@@ -37,7 +37,7 @@ class Empresas extends Model
 
     }
 
-    protected function Guardar($request,$empresa,$idEmpresa,$idNextEmpresa)
+    protected function Guardar($request,$conn,$idEmpresa,$idNextEmpresa)
     {   
 
         if ( is_null($idEmpresa) ){     
@@ -81,12 +81,21 @@ class Empresas extends Model
 
 		$empresa->save();
 
+		//se agrego nueva insert para la tabla role_user por defecto al crear se pondra al administrador 
+		
+
+		$role_admin  		 = new \App\Role;
+        $role_admin->role_id = 1;
+        $role_admin->user_id = $idUser; 
+        $role_admin->save();
+
 		Artisan::call('make:database '.$request->baseDatos.' mysql latin1_swedish');
+		
 
         $this->crearTablas($request);
         $this->crearSp($request);
         $this->crearDirectorios($request);
-
+        $this->insertarRegistrosTabla($request);
     }
 
     protected function crearDirectorios($request)
@@ -1024,10 +1033,12 @@ class Empresas extends Model
 
     protected function creaTable_subarea($BD){
     	DB::statement('CREATE TABLE '.$BD.'.`subarea` (
-		  `idSubArea` int(11) NOT NULL,
+		  `idSubArea` int(11) NOT NULL AUTO_INCREMENT,
 		  `idArea` int(11) NOT NULL,
 		  `descSubArea` varchar(100) DEFAULT NULL,
 		  `activo` tinyint(1) DEFAULT NULL,
+		  `created_at` timestamp NULL DEFAULT NULL,
+		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`idSubArea`),
 		  KEY `FK_Area` (`idArea`),
 		  CONSTRAINT `FK_Area` FOREIGN KEY (`idArea`) REFERENCES `area` (`idArea`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -1135,12 +1146,12 @@ class Empresas extends Model
 
     protected function creaTable_cargo($BD){
     	DB::statement('CREATE TABLE '.$BD.'.`cargo` (
-		  `idCargo` int(11) NOT NULL,
+		  `idCargo` int(11) NOT NULL AUTO_INCREMENT,
 		  `descCargo` varchar(100) DEFAULT NULL,
 		  `idSubArea` int(11) DEFAULT NULL,
 		  `activo` tinyint(1) DEFAULT NULL,
 		  PRIMARY KEY (`idCargo`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
+		) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=latin1;');
     }
 
     protected function creaTable_cargatickets2($BD){
@@ -1229,9 +1240,11 @@ class Empresas extends Model
 
     protected function creaTable_area($BD){
     	DB::statement('CREATE TABLE  '.$BD.'.`area` (
-			  `idArea` int(11) NOT NULL,
+			  `idArea` int(11) NOT NULL AUTO_INCREMENT,
 			  `descArea` varchar(100) DEFAULT NULL,
 			  `activo` tinyint(1) DEFAULT NULL,
+			  `updated_at` timestamp NULL DEFAULT NULL,
+		  	  `created_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`idArea`)
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
     }
@@ -1250,5 +1263,40 @@ class Empresas extends Model
 		  PRIMARY KEY (`idActivo`)
 		) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;');
     }
+
+    protected function insertarRegistrosTabla($request){
+
+    	$BD = $request->baseDatos ; 
+    	$table_name = $BD.'.tablas';
+ 
+    	DB::statement("INSERT INTO $table_name (`tipo`, `idTabla`, `desTabla`, `des2Tabla`, `preTabla`, `postTabla`, `valNum`, `valInt`, `valString`, `valString2`, `valString3`, `valBit`, `activo`, `interno`, `externo`, `updated_at`, `created_at`, `icono`) VALUES
+	('ENC', 1, 'Incidencias', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2020-01-22 16:32:45', NULL, NULL),
+	('ENC', 2, 'Mal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL),
+	('ENC', 3, 'Regular', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, '2019-11-07 21:11:10', NULL, NULL),
+	('ENC', 4, 'Bien', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL),
+	('ENC', 5, 'Muy Bien', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, '2019-11-07 21:01:05', NULL, NULL),
+	('EST', 1, 'Incidencias', 'Pendiente', NULL, '2,3,4,5,98', 0, 1, '#5cb85c;', '#f9f9f9;', '3,98,99', 1, 1, 1, 1, '2020-01-22 16:32:45', NULL, NULL),
+	('EST', 2, 'Asignar', 'Asignado', 'Ticket Asignado', '2,3,4,5,98,99', 10, 1, '#428bca;', '#f9f9f9;', '3,98,99', 1, 1, NULL, NULL, NULL, NULL, '<i class=\"fas fa-check\"></i>'),
+	('EST', 3, 'Anular', 'Anulado', 'Ticket Anulado', '0', 0, 6, '#d9534f;', '#f9f9f9;', NULL, 0, 1, 1, 0, '2019-11-07 21:11:10', NULL, '<i class=\"far fa-trash-alt\"></i>'),
+	('EST', 4, 'Cambiar de Área', 'Reasignado', 'Reasignado', '2,3,4,5,98', 0, 1, '#90EE90;', '#6D6D9D;', '3,98,99', 1, 1, NULL, NULL, NULL, NULL, '<i class=\"fas fa-exchange-alt\"></i>'),
+	('EST', 5, 'Iniciar Atención', 'Iniciado', 'Atención Iniciada', '2,3,7,8,98,99', 20, 2, ' 	#5cb85c;', '#f9f9f9;', '98,99', 1, 1, 0, NULL, '2019-11-07 21:01:05', NULL, '<i class=\"far fa-play-circle\"></i>'),
+	('EST', 6, 'Reaperturar', 'Ticket Reaperturado', 'Ticket Reaperturado', '2,3,5, 8,98,99', 80, 2, '#ffc107;', '#f9f9f9;', '98,99', 1, 1, NULL, NULL, '2019-11-07 21:04:09', NULL, '<i class=\"far fa-folder-open\"></i>'),
+	('EST', 7, 'Pausar Atención', 'Pausado', 'Atención Pausada', '2,3,5,8,98,99', 50, 3, '#FA8072;', '#f9f9f9;', '98,99', 1, 1, 0, NULL, '2020-01-22 15:01:24', NULL, '<i class=\"far fa-pause-circle\"></i>'),
+	('EST', 8, 'Terminar Atención', 'Resuelto', 'Atención Resuelta', '4,6', 90, 4, ' #17a2b8;', '#f9f9f9;', '6,10', 1, 1, 1, 1, '2020-01-22 17:33:21', NULL, '<i class=\"fas fa-fast-forward\"></i>'),
+	('EST', 9, 'Cerrar Atención', 'Cerrado', 'Atención Cerrada', '0', 100, 5, '#6495ED;', '#f9f9f9;', '', 0, 1, NULL, NULL, NULL, NULL, NULL),
+	('EST', 10, 'Registrar Encuesta', 'Encuesta registrada', 'Encuesta registrada', '0', 100, 5, '#6495ED;', '#6D6D9D;', NULL, 0, 1, NULL, NULL, NULL, NULL, '<i class=\"far fa-smile\"></i>'),
+	('EST', 98, 'Adjuntar', 'Adjuntar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '<i class=\"fas fa-paperclip\"></i>'),
+	('EST', 99, 'Consultas', 'Consultas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '<i class=\"far fa-comments\"></i>'),
+	('PRIO', 1, 'Bajo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2020-01-22 16:32:45', NULL, NULL),
+	('PRIO', 2, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL),
+	('PRIO', 3, 'Alta', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, '2019-11-07 21:11:10', NULL, NULL),
+	('TATE', 1, 'Presencial', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2020-01-22 16:32:45', NULL, NULL),
+	('TATE', 2, 'Remota', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL),
+	('TPTK', 1, 'Incidencias', 'Incidencias', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2020-01-22 16:32:45', NULL, NULL),
+	('TPTK', 2, 'Requerimientos', NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL, NULL, 1, 1, 1, NULL, NULL, NULL),
+	('TPTK', 3, 'Nueva Solicitud', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, '2019-11-07 21:11:10', NULL, NULL),
+	('TPTK', 4, 'Quejas - Reclamo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, NULL, NULL);");
+
+    	}
 
 }

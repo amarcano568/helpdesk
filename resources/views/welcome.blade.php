@@ -46,16 +46,18 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ "img/logoCayroPeq.png" }}" height="50" width="50"> <span>Help Desk v1.0</span></a>
+
+                            <a href="{{URL::to('/')}}" class="site_title"><img src="{{ asset('img/logoCayroPeq.png') }}" height="50" width="50"> <span>Help Desk v1.0</span></a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu profile quick info -->
                         <div class="profile clearfix">
                             <div class="profile_pic">
                                 @if( Auth::user()->photo == '' )
-                                    <img src="img/user-icon.png" alt="..." class="img-circle profile_img">                                    
+
+                                    <img src="{{ asset('img/user-icon.png') }}" alt="..." class="img-circle profile_img">                                    
                                 @else
-                                    <img class="img-circle profile_img" src="{{ Auth::user()->photo }}" >
+                                    <img class="img-circle profile_img" src='{{ asset(Auth::user()->photo) }}' >
                                 @endif
                             </div>
                             <div class="profile_info">
@@ -151,6 +153,13 @@
                                                 </a>
                                             </li>
                                             @endcan
+                                            @can('mantCargos')
+                                            <li>
+                                                <a href="{{URL::to('mantCargos')}}">
+                                                Cargos
+                                                </a>
+                                            </li>
+                                            @endcan
                                             @can('config-correo')
                                             <li>
                                                 <a href="{{URL::to('config-correo')}}">Correo
@@ -214,9 +223,11 @@
                         <li class="nav-item dropdown open" style="padding-left: 15px;">
                             <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
                                 @if( Auth::user()->photo == '' )
-                                    <img src="img/user-icon.png" alt="">
+
+
+                                    <img src="{{ asset('img/user-icon.png') }}" alt="">
                                 @else
-                                    <img src="{{ Auth::user()->photo }}" alt="">
+                                    <img src="{{ asset(Auth::user()->photo) }}" alt="">
                                 @endif
                                 
                                 {{ Auth::user()->name }}

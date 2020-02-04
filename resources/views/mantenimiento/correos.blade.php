@@ -34,37 +34,37 @@
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-lg-3 col-md-3 col-sm-3 label-align">Nombre</label>
         <div class="col-lg-3 col-md-6 col-sm-6 ">
-            <input id="nombreEmail" class="form-control" type="text" name="nombreEmail" value="{{$correo->nombre}}">
+            <input id="nombreEmail" class="form-control" type="text" name="nombreEmail" value="{{{ isset($correo->nombre) ? $correo->nombre : '' }}}">
         </div>
     </div>
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">smtp</label>
         <div class="col-md-6 col-sm-6 ">
-            <input id="smtpEmail" class="form-control" type="text" name="smtpEmail" value="{{$correo->smtp}}">
+            <input id="smtpEmail" class="form-control" type="text" name="smtpEmail" value="{{{ isset($correo->smtp) ? $correo->smtp : '' }}}">
         </div>
     </div>
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Port</label>
         <div class="col-md-6 col-sm-6 ">
-            <input id="portEmail" class="form-control" type="text" name="portEmail" value="{{$correo->port}}">
+            <input id="portEmail" class="form-control" type="text" name="portEmail" value="{{{ isset($correo->port) ? $correo->port : '' }}}">
         </div>
     </div>
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">encryption</label>
         <div class="col-md-6 col-sm-6 ">
-            <input id="encryptionEmail" class="form-control" type="text" name="encryptionEmail" value="{{$correo->encryption}}">
+            <input id="encryptionEmail" class="form-control" type="text" name="encryptionEmail" value="{{{ isset($correo->encryption) ? $correo->encryption : '' }}}">
         </div>
     </div>
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Correo</label>
         <div class="col-md-6 col-sm-6 ">
-            <input id="correoEmail" class="form-control" type="text" name="correoEmail" value="{{$correo->correo}}">
+            <input id="correoEmail" class="form-control" type="text" name="correoEmail" value="{{{ isset($correo->correo) ? $correo->correo : '' }}}">
         </div>
     </div>
     <div class="item form-group">
         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Password</label>
         <div class="col-md-6 col-sm-6 ">
-            <input id="passwordEmail" class="form-control" type="text" name="passwordEmail" value="{{$correo->password}}">
+            <input id="passwordEmail" class="form-control" type="text" name="passwordEmail" value="{{{ isset($correo->password) ? $correo->password : '' }}}">
         </div>
     </div>
     <div class="ln_solid"></div>

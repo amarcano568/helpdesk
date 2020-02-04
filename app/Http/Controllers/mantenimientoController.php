@@ -41,9 +41,9 @@ class mantenimientoController extends Controller
     {
         $conn = $this->BaseDatosEmpresa();
         $usuarios = \App\Usuarios::where('BaseDatos','=',$conn)->get();
-        $areas = \App\Areas::on($conn)->get();
+        $areas = \App\Areas::on($conn)->where('activo',1)->get();
         $cargos = \App\Cargos::on($conn)->get();
-        $subAreas = \App\SubAreas::on($conn)->get();
+        $subAreas = \App\SubAreas::on($conn)->where('activo',1)->get();
         $idEmpresa = Auth::user()->id_Empresa;
         $empresa = \App\Empresas::find($idEmpresa);
         $TotUsers = $usuarios->count();
@@ -71,7 +71,13 @@ class mantenimientoController extends Controller
         $usuarios = \App\Usuarios::where('BaseDatos','=',$conn)->get();
         $usuarios->map(function($usuario){
             $area = \App\Areas::on($usuario->BaseDatos)->find($usuario->idArea);
-            $usuario->nomArea = $area->descArea;
+
+            if(isset($area->descArea)){
+                $usuario->nomArea = $area->descArea;
+            }else{
+                $usuario->nomArea = "" ;
+            }
+            
         });
         
         $dataSet = array (
@@ -224,6 +230,18 @@ class mantenimientoController extends Controller
        return response()->json( array('success' => $success, 'mensaje'=> $mensaje, 'data' => '') );
     }
 
+    public function getSubAreas(Request $request){
+       
+       $conn = $this->BaseDatosEmpresa();
+    
+       $iArea = $request->iArea;
+
+       $sAreas = \App\SubAreas::on($conn)->where([['activo',1],['idArea',$iArea]])->get();
+
+
+        return response()->json( array('success' => true, 'mensaje'=> '', 'data' => $sAreas) );
+
+    }
     /**
      * 
      */
@@ -259,8 +277,18 @@ class mantenimientoController extends Controller
     public function actualizaCorreo(Request $request)
     {
         $conn = $this->BaseDatosEmpresa();
+        
         $correo = \App\Correos::on($conn)->find(1);
         
+        // se valido para agregar nuevo correo 
+        
+        if(is_null($correo)){
+
+            $correo     = new \App\Correos;
+            $correo     = $correo->setConnection($conn);
+            $correo->id = 1; 
+         }
+
         $correo->nombre     = $request->nombreEmail;
         $correo->smtp       = $request->smtpEmail;
         $correo->port       = $request->portEmail;
@@ -1058,7 +1086,45 @@ class mantenimientoController extends Controller
         return response()->json( array('success' => true, 'mensaje'=> 'Status cambiado exitosamente..!') );
     }
 
+    /**
+     *      Mantenimiento de Cargos.
+     */
+    
+    public function loadMantCargos(){
 
+        return view('mantenimiento.cargos');
+    }
+
+    public function listarCargos(){
+
+        $conn = $this->BaseDatosEmpresa();
+
+        $cargos = \App\Cargos::on($conn)->get();
+        
+        //return response()->json( array('success' => true, 'mensaje'=>'' ,'data'=>$cargos) );
+        return json_encode($cargos);
+    }
+
+    public function registrarCargos(Request $request){
+        //return $request;
+        try {
+            DB::beginTransaction();   
+            $conn = $this->BaseDatosEmpresa();
+   
+            $save = \App\Cargos::Guardar($request,$conn);
+            DB::commit();
+            if(!$save){
+                App::abort(500, 'Error');
+            }
+
+            return response()->json( array('success' => true, 'mensaje'=> 'Cargo guardado exitosamente..!') );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return $this->internalException($e, __FUNCTION__);
+        }
+       
+    }
     
 }
 

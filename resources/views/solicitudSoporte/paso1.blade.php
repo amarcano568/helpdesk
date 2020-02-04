@@ -33,7 +33,7 @@
 	</div>
 	<div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-6">
 		<label>Prioridad</label>
-		<select data-placeholder="Seleccione una Categoría..." class="form-control chosen-select" id="TipoPrioridad" name="TipoPrioridad" required style="width: 100%">
+		<select data-placeholder="Seleccione prioridad..." class="form-control chosen-select" id="TipoPrioridad" name="TipoPrioridad" required style="width: 100%">
 			@foreach( $prioridades as $prioridad )
 			<option value="{{$prioridad->idTabla}}">
 				{{$prioridad->desTabla}}

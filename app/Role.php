@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Correos extends Model
+class Role extends Model
 {
-    protected $table = 'correos';  
-
+    protected $table = 'role_user';  
+    
 
 }

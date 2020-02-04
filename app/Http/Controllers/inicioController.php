@@ -39,13 +39,43 @@ class inicioController extends Controller
         if ($request->baseDatos=='cayro'){
             $rol = Auth::user()->rol;
             $rolAsignar = $rol == 'adm' ? 'admin' : 'agente';
-            $usuario->assignRole('usuario');
+            
+            // if($rol == 'adm'){
+
+            //     $rolAsignar='admin';
+
+            // }else if($rol == 'age'){
+
+            //     $rolAsignar='agente';
+
+            // }else if($rol == 'usu'){
+
+            //     $rolAsignar='usuario';
+            // }   
+            
             $usuario->revokeRole($rolAsignar);
+            $usuario->assignRole('usuario');
+            
         }else{
             $rol = Auth::user()->rol;
             $rolAsignar = $rol == 'adm' ? 'admin' : 'agente';
-            $usuario->assignRole($rolAsignar);
+            
+            // if($rol == 'adm'){
+
+            //     $rolAsignar='admin';
+
+            // }else if($rol == 'age'){
+
+            //     $rolAsignar='agente';
+
+            // }else if($rol == 'usu'){
+
+            //     $rolAsignar='usuario';
+            // }   
+                      
             $usuario->revokeRole('usuario');
+            $usuario->assignRole($rolAsignar);
+            
         }
         
         $usuario->save();

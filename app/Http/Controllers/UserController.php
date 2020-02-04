@@ -57,7 +57,9 @@ class UserController extends Controller
         //Actualizar roles
         $user->roles()->sync($request->get('roles'));
 
-        return redirect()->route('users.edit',$user->id)->with('info','Usuario actualizado con exito');
+        //return redirect()->route('users.edit',$user->id)->with('info','Usuario actualizado con exito');
+
+        return redirect()->route('mantUsuarios')->with('info','Usuario actualizado con exito');
     }
 
     /**

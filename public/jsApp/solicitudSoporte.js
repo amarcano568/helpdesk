@@ -505,6 +505,7 @@ $(document).on('ready', function() {
         }).done(function(response) {
             console.log(response.data)
 
+
             obj = response.data;
             $.each(obj, function(key, value) {
                 desTabla = value.desTabla
@@ -539,8 +540,12 @@ $(document).on('ready', function() {
             minAdjuntasResultados = response.minAdjResultados;
 
             obj = response.accionesTicket;
+
             botones = '';
+
+
             $.each(obj, function(key, value) {
+
                 botones += '<button id="BtnEventoTicket' + value.idTabla + '" type="button" class="btn btn-round btn-info">' + value.icono + ' ' + value.desTabla + '</button>';
             });
             $("#botonera").html(botones);

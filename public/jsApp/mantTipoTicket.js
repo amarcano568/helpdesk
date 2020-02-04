@@ -313,6 +313,7 @@ $(document).on('ready', function() {
 
     $(document).on('click', '#BtnNuevo', function(event) {
         event.preventDefault();
+
         $("#ModalTipoTicket").modal('show');
         $('#FormTipoTicket').each(function() {
             this.reset();

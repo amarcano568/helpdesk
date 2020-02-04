@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-xl  modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title text-info"> '<i class="fas fa-ticket-alt"></i> Detalle del Ticket Nro. <span id="TituloNroTicket"></span> </h4>
+        <h4 class="modal-title text-info"> '<i class="fas fa-ticket-alt"></i> Detalles del Ticket Nro. <span id="TituloNroTicket"></span> </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body" >
